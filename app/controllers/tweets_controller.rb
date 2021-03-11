@@ -1,7 +1,8 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:destroy, :edit, :update, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   def index
-    @tweets = Tweet.all
+    @tweets = Tweet.includes(:user)
   end
 
   def new
@@ -9,11 +10,18 @@ class TweetsController < ApplicationController
   end
 
   def create
-    Tweet.create(tweet_params)
+    @tweet = Tweet.new(tweet_params)
+    if @tweet.valid?
+      @tweet.save
+    else
+      render :new
+    end
   end
 
   def destroy
-    @tweet.destroy
+    unless @tweet.destroy
+      render :index
+    end
   end
 
   def edit
@@ -29,7 +37,7 @@ class TweetsController < ApplicationController
   private
 
   def tweet_params
-    params.require(:tweet).permit(:name, :image, :text)
+    params.require(:tweet).permit(:image, :text).merge(user_id: current_user.id)
   end
 
   def set_tweet
