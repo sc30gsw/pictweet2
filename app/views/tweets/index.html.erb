@@ -16,7 +16,9 @@
       </div>
       <p><%= tweet.text %></p>
       <span class="name">
-        <%= tweet.name %>
+        <%= link_to user_path(tweet.user.id) do %>
+          <span>投稿者</span><%= tweet.user.nickname %>
+        <% end %>
       </span>
     </div>
   <% end %>
