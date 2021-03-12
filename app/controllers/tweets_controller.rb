@@ -19,9 +19,7 @@ class TweetsController < ApplicationController
   end
 
   def destroy
-    unless @tweet.destroy
-      render :index
-    end
+    render :index unless @tweet.destroy
   end
 
   def edit
