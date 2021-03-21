@@ -5,7 +5,7 @@ RSpec.describe Comment, type: :model do
     @comment = FactoryBot.build(:comment)
   end
 
-  describe'コメントの保存' do
+  describe 'コメントの保存' do
     context 'コメントが投稿できる場合' do
       it 'textがあれば投稿できる' do
         expect(@comment).to be_valid
